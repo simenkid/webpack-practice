@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "deploy": "gh-pages -d build",
+    "stats": "webpack --profile --json > stats.json",
     "start": "webpack-dev-server",
     "build": "webpack",
     "clean": "rm -rf ./build/*",
@@ -16,7 +18,9 @@
     "clean-webpack-plugin": "^0.1.9",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
+    "gh-pages": "^0.11.0",
     "html-webpack-plugin": "^2.17.0",
+    "purecss": "^0.6.0",
     "purifycss-webpack-plugin": "^2.0.3",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",

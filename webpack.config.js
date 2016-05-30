@@ -9,7 +9,10 @@ var PATHS = {
     // it is sugguested to use path.join() to generate absolute paths
     // you can use node.js API path.resolve(), it's ok too
     app: path.join(__dirname, 'app'),
-    style: path.join(__dirname, 'app', 'main.css'),
+    style: [
+        path.join(__dirname, 'node_modules', 'purecss'),
+        path.join(__dirname, 'app', 'main.css'),
+    ],
     build: path.join(__dirname, 'build')
 };
 
@@ -18,9 +21,23 @@ var common = {
         style: PATHS.style,
         app: PATHS.app
     },
+    module: {
+        loaders: [
+            {
+                test: /\.css$/,
+                loaders: [ 'style', 'css' ],
+                include: PATHS.style
+            }
+        ]
+    },
     output: {
         path: PATHS.build,
-        filename: '[name].js'
+        // tweak this to match github project name
+        publicPath: '/webpack-practice/',
+        filename: '[name].[chunkhash].js',
+        // this is used for require.ensure
+        // the setup will work without but this is useful to set
+        chunkFilename: '[chunkhash].js'
     },
     plugins: [
         new HtmlWebpackPlugin({ title: 'webpack demo' })
@@ -32,6 +49,7 @@ var config = {};
 // Detect how npm is run and branch based on that
 switch (process.env.npm_lifecycle_event) {
     case 'build':
+    case 'stats':
         config = merge(
             common,
             {
@@ -46,7 +64,8 @@ switch (process.env.npm_lifecycle_event) {
             parts.setFreeVariable('process.env.NODE_ENV', 'production'),
             parts.extractBundle({ name: 'vendor', entries: ['react'] }),
             parts.minify(),
-            parts.extractCSS(PATHS.style)   // change PATHS.app
+            parts.extractCSS(PATHS.style),  // change PATHS.app
+            parts.purifyCSS([ PATHS.app ])
         );
         break;
     default:
