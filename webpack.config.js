@@ -3,6 +3,8 @@ var path = require('path'),
     merge = require('webpack-merge'),
     validator = require('webpack-validator');
 
+var parts = require('./lib/parts');
+
 var PATHS = {
     app: path.join(__dirname, 'app'),
     build: path.join(__dirname, 'build')
@@ -27,8 +29,13 @@ switch (process.env.npm_lifecycle_event) {
         config = merge(common, {});
         break;
     default:
-        config = merge(common, {});
-
+        config = merge(
+            common,
+            parts.devServer({
+                host: process.env.HOST,
+                port: process.env.PORT
+            })
+        );
 }
 
 module.exports = validator(config);
