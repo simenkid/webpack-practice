@@ -1,12 +1,15 @@
 var path = require('path'),
-    HtmlWebpackPlugin = require('html-webpack-plugin');
+    HtmlWebpackPlugin = require('html-webpack-plugin'),
+    merge = require('webpack-merge'),
+    validator = require('webpack-validator');
 
 var PATHS = {
     app: path.join(__dirname, 'app'),
     build: path.join(__dirname, 'build')
 };
 
-module.exports = {
+var config = {};
+var common = {
     entry: {
         app: PATHS.app
     },
@@ -18,3 +21,14 @@ module.exports = {
         new HtmlWebpackPlugin({ title: 'my webpack practice' })
     ]
 };
+
+switch (process.env.npm_lifecycle_event) {
+    case 'build':
+        config = merge(common, {});
+        break;
+    default:
+        config = merge(common, {});
+
+}
+
+module.exports = validator(config);
