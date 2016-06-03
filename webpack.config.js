@@ -17,7 +17,8 @@ var common = {
     },
     output: {
         path: PATHS.build,
-        filename: '[name].js'
+        filename: '[name].[chunkhash].js',
+        chunkFilename: '[chunkhash].js'
     },
     plugins: [
         new HtmlWebpackPlugin({ title: 'my webpack practice' })
