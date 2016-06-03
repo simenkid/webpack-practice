@@ -39,8 +39,8 @@ switch (process.env.npm_lifecycle_event) {
             parts.setFreeVariable('process.env.NODE_ENV', 'production'),
             parts.extractBundle({ name: 'vendor', entries: [ 'react' ]}),
             parts.minify(),
-            parts.purifyCSS(PATHS.style),
-            parts.extractCSS(PATHS.style)
+            parts.extractCSS(PATHS.style),
+            parts.purifyCSS(PATHS.style)
         );
         break;
     default:
