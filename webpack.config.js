@@ -7,13 +7,15 @@ var parts = require('./lib/parts');
 
 var PATHS = {
     app: path.join(__dirname, 'app'),
-    build: path.join(__dirname, 'build')
+//    style: path.join(__dirname, 'app', 'main.css')
+    build: path.join(__dirname, 'build'),
 };
 
 var config = {};
 var common = {
     entry: {
-        app: PATHS.app
+        app: PATHS.app,
+        style: PATHS.style
     },
     output: {
         path: PATHS.build,
@@ -33,8 +35,8 @@ switch (process.env.npm_lifecycle_event) {
             parts.clean(PATHS.build),
             parts.setFreeVariable('process.env.NODE_ENV', 'production'),
             parts.extractBundle({ name: 'vendor', entries: [ 'react' ]}),
-            parts.minify(),
-            parts.setupCSS(PATHS.app)
+            parts.extractCSS(PATHS.app),
+            parts.minify()
         );
         break;
     default:
