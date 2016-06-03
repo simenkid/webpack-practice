@@ -30,6 +30,7 @@ switch (process.env.npm_lifecycle_event) {
         config = merge(
             common,
             { devtool: 'source-map'},
+            parts.clean(PATHS.build),
             parts.setFreeVariable('process.env.NODE_ENV', 'production'),
             parts.extractBundle({ name: 'vendor', entries: [ 'react' ]}),
             parts.minify(),
